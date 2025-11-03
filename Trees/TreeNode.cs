@@ -67,7 +67,7 @@ namespace Trees
             //Si es un nodo sin hijos(leaf), la altura es 1
             if (Children.Count() == 0)
             {
-                return 1;
+                return 0;
             }
             else
             {

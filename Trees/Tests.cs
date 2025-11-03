@@ -63,7 +63,7 @@ namespace Trees
             int height = tree.RootNode.Height();
             if (height != 3)
             {
-                onError($"Error. Height() returned {height} instead of 4");
+                onError($"Error. Height() returned {height} instead of 3");
                 return false;
             }
 
