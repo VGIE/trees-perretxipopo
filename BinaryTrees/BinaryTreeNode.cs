@@ -176,7 +176,7 @@ namespace BinaryTrees
             //one we are looking for, we will return this, so that the parent node can replace LeftChild/RightChild
             //with the same node it had.
 
-            //si la clavve que queremos eliminar es menos que mi clave
+            //si la clave que queremos eliminar es menos que mi clave
             if (this.Key.CompareTo(key) > 0)
             {
                 //la clave que buscamos está a la izquierda
@@ -187,7 +187,7 @@ namespace BinaryTrees
                 }
                 return this;
             }
-            //si la clavve que queremos eliminar es mayor que mi clave
+            //si la clave que queremos eliminar es mayor que mi clave
             if (this.Key.CompareTo(key) < 0)
             {
                 //la clave que buscamos está a la derecha
@@ -231,6 +231,7 @@ namespace BinaryTrees
                 }
                 //le asignamos el subarbol derecho como hijo derecho
                 nuevoPai.RightChild = subarbolDerecho;
+                //
                 return subarbolIzquierdo;
             }
             
