@@ -114,13 +114,49 @@ namespace Trees
         {
             //TODO #8: Return the node that contains this value (it might be this node or a child). Apply recursively
             
-            return null;
+            //primero comprobamos si el valor del nodo actual coincide con el valor buscado
+            if (this.Value.Equals(value))
+            {
+                return this;
+            }
+            else
+            {
+                //si no coincide busscamos en los hijos con un for
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    TreeNode<T> child = Children.Get(i);
+                    TreeNode<T> hijoEncontrado = child.Find(value);
+
+                    if (hijoEncontrado != null)
+                    {
+                        return hijoEncontrado;
+                    }
+                }
+                return null;
+            }
         }
 
 
         public void Remove(TreeNode<T> node)
         {
             //TODO #9: Same as #6, but this method is given the specific node to remove, not the value
+
+            for (int i = 0; i < Children.Count(); i++)
+            {
+                TreeNode<T> child = Children.Get(i);
+                //Si el hijo actual es el nodo que queremos eliminar
+                if (child == node)
+                {
+                    //lo removemos de la lista de hijos
+                    Children.Remove(i);
+                    return;
+                }
+                else
+                {
+                    // Si no coincide, buscamos recursivamente dentro de ese hijo, para quitar todos los hijos de ese hijo
+                    child.Remove(node);
+                }
+            }
             
         }
     }
