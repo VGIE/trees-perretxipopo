@@ -80,6 +80,7 @@ namespace Trees
                         alturaMaximaHijo = alturaHijo;
                     }
                 }
+                //Se le suma 1 a la altura del hijo mas alto para contar el nodo actual
                 return 1 + alturaMaximaHijo;
             }
         }

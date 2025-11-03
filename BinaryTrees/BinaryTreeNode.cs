@@ -12,6 +12,10 @@ namespace BinaryTrees
         public BinaryTreeNode(TKey key, TValue value)
         {
             //TODO #1: Initialize member variables/attributes
+            Key = key;
+            Value = value;
+            LeftChild = null;
+            RightChild = null;
             
         }
 
@@ -43,6 +47,36 @@ namespace BinaryTrees
             //              b) Else, we should ask the LeftChild to add it recursively
             //          -If the current node has a lower key that the new node (use CompareTo()), the new node should be on this node's right side.
             //          -If the current node and the new node have the same key, just update this node's value with the new node's value
+
+            if (this.Key.CompareTo(node.Key) > 0)
+            {
+                //el nuevo nodo debe ir a la izquierda
+                if (this.LeftChild == null)
+                {
+                    this.LeftChild = node;
+                }
+                else
+                {
+                    this.LeftChild.Add(node);
+                }
+            }
+            if (this.Key.CompareTo(node.Key) < 0)
+            {
+                //el nuevo nodo debe ir a la derecha
+                if (this.RightChild == null)
+                {
+                    this.RightChild = node;
+                }
+                else
+                {
+                    this.RightChild.Add(node);
+                }
+            }
+            else
+            {
+                //las claves son iguales, actualizamos el valor
+                this.Value = node.Value;
+            }
             
         }
 
@@ -50,15 +84,45 @@ namespace BinaryTrees
         {
             //TODO #3: Return the total number of elements in this tree
             
-            return 0;
+            int numElements = 1; // empieza en 1 porque un árbol ya contiene al menos un nodo
+            if (LeftChild != null)
+            {
+                numElements += LeftChild.Count();
+            }
+            if (RightChild != null)
+            {
+                numElements += RightChild.Count();
+            }
+            return numElements;
             
         }
 
         public int Height()
         {
             //TODO #4: Return the height of this tree
-            
-            return 0;
+
+            int alturaIzquierda = 0;
+            int alturaDerecha = 0;
+            //si no hay un nodo, la altura es -1
+            if (this == null)
+            {
+                return -1;
+            }
+            //si no tiene hijos, la altura es 0
+            if (LeftChild == null && RightChild == null)
+            {
+                return 0;
+            }
+            //Si tiene hijos, calculamos la altura de cada uno y devolvemos la mayor + 1
+            if (LeftChild != null)
+            {
+                alturaIzquierda = LeftChild.Height();
+            }
+            if (RightChild != null)
+            {
+                alturaDerecha = RightChild.Height();
+            }
+            return 1 + Math.Max(alturaIzquierda, alturaDerecha);
             
         }
 
@@ -70,8 +134,36 @@ namespace BinaryTrees
             //              b) Else, we should ask the LeftChild to find the node recursively. It must be below LeftChild
             //          -If the current node has a lower key that the new node (use CompareTo()), the key should be on this node's right side.
             //          -If the current node and the new node have the same key, just return this node's value. We found it
-            
-            return default;
+
+            if (this.Key.CompareTo(key) > 0)
+            {
+                //la clave que buscamos está a la izquierda
+                if (this.LeftChild == null)
+                {
+                    return default(TValue);
+                }
+                else
+                {
+                    return this.LeftChild.Get(key);
+                }
+            }
+            if (this.Key.CompareTo(key) < 0)
+            {
+                //la clave que buscamos está a la derecha
+                if (this.RightChild == null)
+                {
+                    return default(TValue);
+                }
+                else
+                {
+                    return this.RightChild.Get(key);
+                }
+            }
+            else
+            {
+                //las claves son iguales, devolvemos el valor
+                return this.Value;
+            }
             
         }
 
@@ -83,8 +175,64 @@ namespace BinaryTrees
             //so this method returns the node with which this node needs to be replaced. If this node isn't the
             //one we are looking for, we will return this, so that the parent node can replace LeftChild/RightChild
             //with the same node it had.
-            
-            return null;
+
+            //si la clavve que queremos eliminar es menos que mi clave
+            if (this.Key.CompareTo(key) > 0)
+            {
+                //la clave que buscamos está a la izquierda
+                if (this.LeftChild != null)
+                {
+                    //lo que devuelva el hijo pasa a ser mi hijo izquierdo
+                    this.LeftChild = this.LeftChild.Remove(key);
+                }
+                return this;
+            }
+            //si la clavve que queremos eliminar es mayor que mi clave
+            if (this.Key.CompareTo(key) < 0)
+            {
+                //la clave que buscamos está a la derecha
+                if (this.RightChild != null)
+                {
+                    //lo que devuelva el hijo pasa a ser mi hijo derecho
+                    this.RightChild = this.RightChild.Remove(key);
+                }
+                return this;
+            }
+            else
+            {
+                //las claves son iguales, este es el nodo a eliminar
+                //caso 1: nodo sin hijos
+                if (this.LeftChild == null && this.RightChild == null)
+                {
+                    return null;
+                }
+                //caso 2: nodo con un hijo
+                //si no tiene hijo izquierdo
+                if (this.LeftChild == null)
+                {
+                    return this.RightChild;
+                }
+                //si no tiene hijo derecho
+                if (this.RightChild == null)
+                {
+                    return this.LeftChild;
+                }
+                //caso 3: nodo con dos hijos
+                //guardamos subarboles
+                BinaryTreeNode<TKey, TValue> subarbolIzquierdo = this.LeftChild;
+                BinaryTreeNode<TKey, TValue> subarbolDerecho = this.RightChild;
+
+                //es redundante pero lo vemos más claro así
+                BinaryTreeNode<TKey, TValue> nuevoPai = subarbolIzquierdo;
+                //buscamos el nodo mas a la derecha del subarbol izquierdo
+                while (nuevoPai.RightChild != null)
+                {
+                    nuevoPai = nuevoPai.RightChild;
+                }
+                //le asignamos el subarbol derecho como hijo derecho
+                nuevoPai.RightChild = subarbolDerecho;
+                return subarbolIzquierdo;
+            }
             
         }
 
