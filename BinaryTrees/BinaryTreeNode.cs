@@ -48,7 +48,8 @@ namespace BinaryTrees
             //          -If the current node has a lower key that the new node (use CompareTo()), the new node should be on this node's right side.
             //          -If the current node and the new node have the same key, just update this node's value with the new node's value
 
-            if (this.Key.CompareTo(node.Key) > 0)
+            int comparar = this.Key.CompareTo(node.Key);
+            if (comparar > 0)
             {
                 //el nuevo nodo debe ir a la izquierda
                 if (this.LeftChild == null)
@@ -60,7 +61,7 @@ namespace BinaryTrees
                     this.LeftChild.Add(node);
                 }
             }
-            if (this.Key.CompareTo(node.Key) < 0)
+            if (comparar < 0)
             {
                 //el nuevo nodo debe ir a la derecha
                 if (this.RightChild == null)
@@ -135,7 +136,8 @@ namespace BinaryTrees
             //          -If the current node has a lower key that the new node (use CompareTo()), the key should be on this node's right side.
             //          -If the current node and the new node have the same key, just return this node's value. We found it
 
-            if (this.Key.CompareTo(key) > 0)
+            int comparar = this.Key.CompareTo(key);
+            if (comparar > 0)
             {
                 //la clave que buscamos está a la izquierda
                 if (this.LeftChild == null)
@@ -147,7 +149,7 @@ namespace BinaryTrees
                     return this.LeftChild.Get(key);
                 }
             }
-            if (this.Key.CompareTo(key) < 0)
+            if (comparar < 0)
             {
                 //la clave que buscamos está a la derecha
                 if (this.RightChild == null)
@@ -221,17 +223,8 @@ namespace BinaryTrees
                 //guardamos subarboles
                 BinaryTreeNode<TKey, TValue> subarbolIzquierdo = this.LeftChild;
                 BinaryTreeNode<TKey, TValue> subarbolDerecho = this.RightChild;
-
-                //es redundante pero lo vemos más claro así
-                BinaryTreeNode<TKey, TValue> nuevoPai = subarbolIzquierdo;
-                //buscamos el nodo mas a la derecha del subarbol izquierdo
-                while (nuevoPai.RightChild != null)
-                {
-                    nuevoPai = nuevoPai.RightChild;
-                }
-                //le asignamos el subarbol derecho como hijo derecho
-                nuevoPai.RightChild = subarbolDerecho;
-                //
+                //le asignamos al subarbol izquierdo el subarbol derecho como hijo derecho
+                subarbolIzquierdo.Add(subarbolDerecho);
                 return subarbolIzquierdo;
             }
             
