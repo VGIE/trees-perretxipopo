@@ -59,7 +59,7 @@ namespace BinaryTrees
                     this.LeftChild.Add(node);
                 }
             }
-            if (comparar < 0)
+            else if (comparar < 0)
             {
                 //el nuevo nodo debe ir a la derecha
                 if (RightChild == null)
