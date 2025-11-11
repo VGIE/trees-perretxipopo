@@ -140,7 +140,7 @@ namespace BinaryTrees
                 //la clave que buscamos está a la izquierda
                 if (LeftChild == null)
                 {
-                    return default(TValue);
+                    return default;
                 }
                 else
                 {
@@ -152,7 +152,7 @@ namespace BinaryTrees
                 //la clave que buscamos está a la derecha
                 if (RightChild == null)
                 {
-                    return default(TValue);
+                    return default;
                 }
                 else
                 {
